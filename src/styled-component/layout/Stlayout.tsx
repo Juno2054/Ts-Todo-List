@@ -28,12 +28,12 @@ export const Header = styled.header`
 export const Footer = styled.footer`
    width: 100%;
    height: 50px;
+   margin-top: 200px;
    background-color: #f8f9fa;
    display: flex;
    justify-content: center;
    align-items: center;
-   position: fixed;
-   bottom: 0;
+   position: relative;
    box-shadow: 0 -2px 4px 0 rgba(0, 0, 0, 0.1);
    copyright {
       font-size: 14px;
