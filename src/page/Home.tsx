@@ -7,7 +7,6 @@ import HomeComponentBottom from '../componets/home/HomeComponentBottom';
 function Home() {
    return (
       <St.Container>
-         <St.Div>홈페이지</St.Div>
          {/* 상단 컴포넌트 */}
          <HomeComponentTop />
          <St.HomeMiddleDiv>

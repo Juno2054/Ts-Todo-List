@@ -6,8 +6,8 @@ const homeSlice = createSlice({
    name: 'home',
    initialState,
    reducers: {
-      setTodo: (state, action: PayloadAction<Todo>) => {
-         state.push(action.payload);
+      setTodo: (state, action: PayloadAction<Todo[]>) => {
+         state.push(...action.payload);
       },
       toggleTodo: (state, action: PayloadAction<string>) => {
          const todo = state.findIndex(todo => todo.id === action.payload);

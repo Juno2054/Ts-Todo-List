@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+interface ButtonProps {
+   color: string;
+   hoverColor: string;
+}
 
 export const Div = styled.div``;
 
@@ -13,19 +17,20 @@ export const Container = styled.div`
    padding: 50px 20px;
    box-sizing: border-box;
 `;
-export const Button = styled.button`
+export const Button = styled.button<ButtonProps>`
    display: inline-block;
    padding: 10px 20px;
    font-size: 1em;
    text-align: center;
    color: #ffffff;
-   background-color: #007bff;
+   background-color: ${(props: any) => props.color};
+   /* background-color: #064992; */
    border: none;
    border-radius: 4px;
    cursor: pointer;
    transition: background-color 0.3s ease;
    &:hover {
-      background-color: #0056b3;
+      background-color: ${(props: any) => props.hoverColor};
    }
 `;
 
@@ -78,12 +83,11 @@ export const TopHomeContainer = styled.div`
 `;
 
 export const MiddleHomeDiv = styled.div`
-   width: 45%;
+   width: 40%;
    margin: 2.5%;
    display: flex;
    flex-direction: column;
    justify-content: space-between;
-   align-items: flex-start;
    align-items: center;
 `;
 export const ButtonContainer = styled.div`
@@ -100,17 +104,26 @@ export const ButtonContainer = styled.div`
 export const MiddleHomeContainer = styled.div`
    width: 100%;
    display: flex;
-   justify-content: flex-start;
    flex-direction: row;
    flex-wrap: wrap;
    align-items: center;
 `;
 export const MiddleHomeTitle = styled.div`
-   display: flex;
-   flex-direction: column;
+   width: 100%;
    justify-content: center;
    align-items: center;
    padding: 3% 5%;
+   h2 {
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
+   }
+   p {
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+   }
 `;
 export const MiddleHomeTitleFlex = styled.div`
    margin: 30px 0;
