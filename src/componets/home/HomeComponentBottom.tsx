@@ -1,48 +1,55 @@
-import React, { useEffect } from 'react';
 import * as St from '../../styled-component/home/Sthome';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleTodo, deleteTodo, setTodo } from '../../redux/modules/home/homeSlice';
 import { Todo } from '../../types/TodoType';
-import { RootState } from '../../redux/config/configStore';
-import axios from 'axios';
-
+import { fetchTodos } from '../../Api/api';
+import { useQuery } from 'react-query';
+import { useDeleteMutation, useUpdateMutation } from '../../Hook/hook';
 const HomeComponentBottom = () => {
-   const dispatch = useDispatch();
-   const todos = useSelector((state: RootState) => state.homeSlice);
-   const handleComplete = (id: string) => {
-      dispatch(toggleTodo(id));
-      axios.patch(`http://localhost:4001/todos/${id}`, { isDone: true });
+   const {
+      data: fetchdTodos,
+      isLoading,
+      error,
+   } = useQuery('todos', fetchTodos) as {
+      data: Todo[] | [Todo];
+      isLoading: boolean;
+      error: Error | null;
+   };
+   const updateMutation = useUpdateMutation();
+   const deleteMutation = useDeleteMutation();
+
+   const handleComplete = (id: string, todo: Todo) => {
+      updateMutation.mutate({ id, data: { ...todo, isDone: !todo.isDone } });
    };
    const handleDelete = (id: string) => {
-      dispatch(deleteTodo(id));
-      axios.delete(`http://localhost:4001/todos/${id}`);
+      if (window.confirm('정말 삭제할거에요?')) {
+         deleteMutation.mutate(id);
+      }
    };
 
+   if (isLoading) return <p>'Loading...'</p>;
+   if (error) return <p>{error.message}</p>;
    return (
       <St.MiddleHomeContainer>
-         {todos.map(
-            todo =>
+         {fetchdTodos.map(
+            (todo: Todo) =>
                todo.isDone === true && (
-                  <>
-                     <St.MiddleHomeDiv key={todo.id}>
-                        <St.MiddleHomeTitleFlex>
-                           <St.MiddleHomeTitle>
-                              <St.H2>{todo.title}</St.H2>
-                           </St.MiddleHomeTitle>
-                           <St.MiddleHomeTitle>
-                              <St.P>{todo.contents}</St.P>
-                           </St.MiddleHomeTitle>
-                        </St.MiddleHomeTitleFlex>
-                        <St.ButtonContainer>
-                           <St.Button color='#ff001e' hoverColor='#7e0210' onClick={() => handleComplete(todo.id)}>
-                              {todo.isDone ? '취소' : '완료'}
-                           </St.Button>
-                           <St.Button color='#007bff' hoverColor='#014084' onClick={() => handleDelete(todo.id)}>
-                              삭제
-                           </St.Button>
-                        </St.ButtonContainer>
-                     </St.MiddleHomeDiv>
-                  </>
+                  <St.MiddleHomeDiv key={todo.id}>
+                     <St.MiddleHomeTitleFlex>
+                        <St.MiddleHomeTitle>
+                           <St.H2>{todo.title}</St.H2>
+                        </St.MiddleHomeTitle>
+                        <St.MiddleHomeTitle>
+                           <St.P>{todo.contents}</St.P>
+                        </St.MiddleHomeTitle>
+                     </St.MiddleHomeTitleFlex>
+                     <St.ButtonContainer>
+                        <St.Button color='#ff001e' hoverColor='#7e0210' onClick={() => handleComplete(todo.id, todo)}>
+                           {todo.isDone ? '취소' : '완료'}
+                        </St.Button>
+                        <St.Button color='#007bff' hoverColor='#014084' onClick={() => handleDelete(todo.id)}>
+                           삭제
+                        </St.Button>
+                     </St.ButtonContainer>
+                  </St.MiddleHomeDiv>
                ),
          )}
       </St.MiddleHomeContainer>

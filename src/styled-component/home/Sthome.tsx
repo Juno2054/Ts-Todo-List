@@ -23,14 +23,14 @@ export const Button = styled.button<ButtonProps>`
    font-size: 1em;
    text-align: center;
    color: #ffffff;
-   background-color: ${(props: any) => props.color};
+   background-color: ${(props: any) => props.color || '#007bff'};
    /* background-color: #064992; */
    border: none;
    border-radius: 4px;
    cursor: pointer;
    transition: background-color 0.3s ease;
    &:hover {
-      background-color: ${(props: any) => props.hoverColor};
+      background-color: ${(props: any) => props.hoverColor || '#0056b3'};
    }
 `;
 
